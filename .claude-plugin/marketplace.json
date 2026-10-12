@@ -1,0 +1,15 @@
+{
+  "name": "pulse",
+  "description": "Pulse: mission control for Claude Code. A live dashboard and a calm voice for all your agents.",
+  "owner": {
+    "name": "pulsebridge",
+    "url": "https://github.com/pulsebridge"
+  },
+  "plugins": [
+    {
+      "name": "pulse",
+      "source": "./",
+      "description": "Pulse: a live map of every Claude Code agent, with spoken updates, needs-you alerts and plan limits."
+    }
+  ]
+}

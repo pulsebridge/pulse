@@ -1,0 +1,20 @@
+{
+  "name": "pulse",
+  "version": "0.1.0",
+  "description": "Pulse, mission control for Claude Code: a live map of every agent and subagent on your machine, spoken status updates, needs-you alerts, and the ability to stop any agent.",
+  "author": {
+    "name": "Byrva",
+    "url": "https://github.com/pulsebridge"
+  },
+  "homepage": "https://github.com/pulsebridge/pulse",
+  "repository": "https://github.com/pulsebridge/pulse",
+  "license": "Apache-2.0",
+  "keywords": [
+    "dashboard",
+    "agents",
+    "subagents",
+    "monitoring",
+    "voice",
+    "hooks"
+  ]
+}

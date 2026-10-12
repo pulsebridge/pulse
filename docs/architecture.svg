@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 610" role="img" aria-label="How Pulse works: Claude Code hooks post every event to a local Node server, which streams live state to the dashboard, sends lines to the voice, and can send a stop request back to the agent through the hook reply.">
+  <style>
+    svg { --fg:#1a1a1a; --mut:#5f5f5a; --bg:#ffffff; --card:#f5f5f2; --panel:#fafaf8; --line:#c4c4bd; --acc:#d9a400; --accbg:#fff4c2; }
+    @media (prefers-color-scheme: dark) {
+      svg { --fg:#f2f2ee; --mut:#a9a9a2; --bg:#0d1117; --card:#161b22; --panel:#10151c; --line:#3a4048; --acc:#ffd21f; --accbg:#2e2800; }
+    }
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: var(--fg); }
+    .t { font-size: 13.5px; font-weight: 600; }
+    .s { font-size: 11px; fill: var(--mut); }
+    .l { font-size: 11px; fill: var(--mut); }
+    .la { font-size: 11px; font-weight: 600; fill: var(--fg); }
+    .cap { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; fill: var(--mut); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .bg { fill: var(--bg); }
+    .panel { fill: var(--panel); stroke: var(--line); stroke-width: 1; }
+    .box { fill: var(--card); stroke: var(--line); stroke-width: 1; }
+    .hero { fill: var(--card); stroke: var(--acc); stroke-width: 2; }
+    .key { fill: var(--accbg); stroke: var(--acc); stroke-width: 1.25; }
+    .ln { stroke: var(--mut); stroke-width: 1.5; fill: none; }
+    .lna { stroke: var(--acc); stroke-width: 2; fill: none; stroke-dasharray: 6 4; }
+    .ah { fill: var(--mut); }
+    .aha { fill: var(--acc); }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 1 L9 5 L0 9 z" class="ah"/></marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 1 L9 5 L0 9 z" class="aha"/></marker>
+    <marker id="arrowS" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" class="ah"/></marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="610" rx="16"/>
+
+  <!-- Column captions -->
+  <text class="cap" x="24" y="30">YOUR MACHINE · NOTHING LEAVES IT EXCEPT WRAP-UPS</text>
+
+  <!-- ===== Claude Code ===== -->
+  <rect class="panel" x="24" y="48" width="220" height="470" rx="14"/>
+  <text class="t" x="44" y="76">Claude Code</text>
+  <text class="s" x="44" y="94">every terminal and VS Code window</text>
+
+  <rect class="box" x="44" y="112" width="180" height="62" rx="10"/>
+  <text class="t" x="60" y="138">Chat</text>
+  <text class="s" x="60" y="157">prompts, tool calls, stops</text>
+
+  <rect class="box" x="60" y="190" width="164" height="42" rx="10"/>
+  <text class="t" x="76" y="216">Subagent</text>
+  <rect class="box" x="60" y="244" width="164" height="42" rx="10"/>
+  <text class="t" x="76" y="270">Subagent</text>
+  <path class="ln" d="M52 174 V265 M52 211 H60 M52 265 H60"/>
+
+  <rect class="key" x="44" y="316" width="180" height="62" rx="10"/>
+  <text class="s" x="60" y="338">each reply ends with</text>
+  <text class="la mono" x="60" y="360">⟦pulse⟧ done | task</text>
+
+  <rect class="box" x="44" y="428" width="180" height="62" rx="10"/>
+  <text class="t" x="60" y="454">Status line</text>
+  <text class="s" x="60" y="473">5-hour and weekly usage</text>
+
+  <!-- ===== Hook ===== -->
+  <rect class="box" x="344" y="112" width="156" height="168" rx="12"/>
+  <text class="t mono" x="360" y="138">pulse-hook.sh</text>
+  <text class="s" x="360" y="160">one script, 11 events</text>
+  <text class="s" x="360" y="178">curl with a 2s timeout</text>
+  <text class="s" x="360" y="204">Pulse not running?</text>
+  <text class="s" x="360" y="222">drops the event quietly,</text>
+  <text class="s" x="360" y="240">Claude carries on</text>
+
+  <rect class="box" x="344" y="316" width="156" height="62" rx="12" stroke-dasharray="5 4"/>
+  <text class="s" x="360" y="340">on SessionStart only:</text>
+  <text class="la" x="360" y="360">starts the server</text>
+
+  <!-- Claude -> hook (event) -->
+  <path class="ln" d="M224 150 H342" marker-end="url(#arrow)"/>
+  <text class="l" x="283" y="142" text-anchor="middle">event JSON</text>
+  <!-- hook -> Claude (stop reply) -->
+  <path class="lna" d="M344 232 H246" marker-end="url(#arrowA)"/>
+  <text class="la" x="295" y="224" text-anchor="middle">stop</text>
+  <text class="l" x="295" y="250" text-anchor="middle">or nothing</text>
+
+  <!-- ===== Server ===== -->
+  <rect class="hero" x="600" y="48" width="270" height="418" rx="16"/>
+  <text class="t" x="622" y="78">Pulse server</text>
+  <text class="s mono" x="622" y="96">Node · 127.0.0.1:4777</text>
+
+  <rect class="box" x="620" y="116" width="230" height="58" rx="10"/>
+  <text class="t" x="636" y="140">Live state, in memory</text>
+  <text class="s" x="636" y="158">sessions, agents, timers, notes</text>
+
+  <rect class="box" x="620" y="184" width="230" height="58" rx="10"/>
+  <text class="t" x="636" y="208">Decides what to say</text>
+  <text class="s" x="636" y="226">phrase bank, one wrap-up per crew</text>
+
+  <rect class="key" x="620" y="252" width="230" height="58" rx="10"/>
+  <text class="t" x="636" y="276">Stop queue</text>
+  <text class="s" x="636" y="294">held until that agent's next event</text>
+
+  <rect class="box" x="620" y="320" width="230" height="58" rx="10"/>
+  <text class="t" x="636" y="344">Files and terminals</text>
+  <text class="s" x="636" y="362">diffs, commit, push, real terminals</text>
+
+  <text class="s mono" x="622" y="410">server/server.js</text>
+  <text class="s" x="622" y="428">one file, no dependencies</text>
+  <text class="s" x="622" y="446">POST /hook · GET /stream · GET /health</text>
+
+  <!-- hook -> server -->
+  <path class="ln" d="M500 150 H598" marker-end="url(#arrow)"/>
+  <text class="l" x="549" y="142" text-anchor="middle">POST /hook</text>
+  <!-- server -> hook reply (stop) -->
+  <path class="lna" d="M598 232 H502" marker-end="url(#arrowA)"/>
+  <text class="la" x="550" y="224" text-anchor="middle">reply</text>
+  <!-- stop queue feeds the reply -->
+  <path class="lna" d="M620 281 H560 V232" />
+
+  <!-- boot -->
+  <path class="ln" d="M500 347 H598" marker-end="url(#arrow)" stroke-dasharray="5 4"/>
+  <text class="l" x="549" y="339" text-anchor="middle">if down</text>
+
+  <!-- status line -> server -->
+  <path class="ln" d="M224 459 H598" marker-end="url(#arrow)"/>
+  <text class="l" x="411" y="451" text-anchor="middle">plan limits</text>
+
+  <!-- ===== Right column ===== -->
+  <rect class="box" x="960" y="48" width="216" height="168" rx="14"/>
+  <text class="t" x="980" y="78">Dashboard</text>
+  <text class="s" x="980" y="96">browser tab or Pulse.app</text>
+  <text class="s" x="980" y="126">live map of projects, chats</text>
+  <text class="s" x="980" y="144">and subagents</text>
+  <text class="s" x="980" y="170">cards, transcripts, diffs</text>
+  <text class="s" x="980" y="196">Stop button on every card</text>
+
+  <path class="ln" d="M870 100 H958" marker-end="url(#arrow)"/>
+  <text class="l" x="914" y="92" text-anchor="middle">SSE /stream</text>
+  <path class="lna" d="M958 170 H872" marker-end="url(#arrowA)"/>
+  <text class="la" x="915" y="162" text-anchor="middle">stop</text>
+  <text class="l" x="915" y="188" text-anchor="middle">settings</text>
+
+  <rect class="box" x="960" y="250" width="216" height="110" rx="14"/>
+  <text class="t" x="980" y="280">Voice</text>
+  <text class="s" x="980" y="298">tone first, then one short line</text>
+  <text class="s" x="980" y="324">Kokoro, local (optional)</text>
+  <text class="s" x="980" y="342">or your browser's voice</text>
+  <path class="ln" d="M870 305 H958" marker-end="url(#arrow)"/>
+  <text class="l" x="914" y="297" text-anchor="middle">lines</text>
+
+  <rect class="box" x="960" y="394" width="216" height="72" rx="14" stroke-dasharray="5 4"/>
+  <text class="t" x="980" y="422">Claude Sonnet</text>
+  <text class="s" x="980" y="440">wrap-ups only, ~500 tokens</text>
+  <text class="s" x="980" y="456">through your own login</text>
+  <path class="ln" d="M870 430 H958" marker-end="url(#arrow)" stroke-dasharray="5 4"/>
+  <text class="l" x="914" y="422" text-anchor="middle">wrap-up</text>
+
+  <!-- ===== Disk ===== -->
+  <rect class="box" x="600" y="520" width="270" height="62" rx="14"/>
+  <text class="t mono" x="622" y="546">~/.pulse</text>
+  <text class="s" x="622" y="565">settings, log, voice model</text>
+  <path class="ln" d="M735 468 V518" marker-start="url(#arrowS)" marker-end="url(#arrow)"/>
+  <text class="l" x="747" y="498">read / write</text>
+
+  <!-- ===== Legend ===== -->
+  <path class="lna" d="M24 560 H70" marker-end="url(#arrowA)"/>
+  <text class="s" x="80" y="564">how Stop works: the request rides back in the hook reply</text>
+  <path class="ln" d="M24 584 H70" marker-end="url(#arrow)" stroke-dasharray="5 4"/>
+  <text class="s" x="80" y="588">optional or occasional</text>
+</svg>

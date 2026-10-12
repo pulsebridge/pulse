@@ -1,0 +1,2 @@
+/* Pulse intro overlay (built by intro.js). The cover's critical styles are inline so it hides the app before this loads. */
+#pulse-intro { position: fixed; inset: 0; z-index: 1000; overflow: hidden; cursor: default; user-select: none; -webkit-user-select: none; -webkit-app-region: no-drag; app-region: no-drag; }

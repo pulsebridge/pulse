@@ -1,0 +1,92 @@
+{
+  "name": "pulse-desktop",
+  "productName": "Pulse",
+  "version": "0.1.0",
+  "description": "Pulse for macOS: the Claude Code agent dashboard in its own window, with Claude terminals built in.",
+  "main": "main.js",
+  "private": true,
+  "author": "Byrva",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "env -u ELECTRON_RUN_AS_NODE electron .",
+    "postinstall": "chmod +x node_modules/node-pty/prebuilds/darwin-*/spawn-helper 2>/dev/null || true",
+    "icon": "sh scripts/make-icon.sh",
+    "pack": "npm run icon && env -u ELECTRON_RUN_AS_NODE electron-builder --mac dir --arm64",
+    "dist": "npm run pack",
+    "dist:dmg": "npm run icon && env -u ELECTRON_RUN_AS_NODE electron-builder --mac dmg --arm64 --x64",
+    "verify": "node scripts/verify.js",
+    "install-app": "sh scripts/install.sh",
+    "release": "env -u ELECTRON_RUN_AS_NODE electron-builder --mac dmg --arm64 --x64 --publish never"
+  },
+  "dependencies": {
+    "node-pty": "1.1.0"
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "io.github.pulsebridge.pulse",
+    "productName": "Pulse",
+    "npmRebuild": false,
+    "nodeGypRebuild": false,
+    "buildDependenciesFromSource": false,
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "starting.html",
+      "package.json",
+      "!node_modules/node-pty/{src,deps,third_party,scripts,typings}${/*}",
+      "!node_modules/node-pty/binding.gyp",
+      "!node_modules/node-pty/prebuilds/{win32-x64,win32-arm64}${/*}",
+      "!node_modules/node-addon-api${/*}",
+      "!node_modules/node-pty/lib/**/*.{map,test.js}"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/node-pty/**"
+    ],
+    "extraResources": [
+      {
+        "from": "../server",
+        "to": "server",
+        "filter": [
+          "**/*",
+          "!**/__pycache__/**"
+        ]
+      },
+      {
+        "from": "../assets",
+        "to": "assets"
+      }
+    ],
+    "mac": {
+      "target": [
+        "dir"
+      ],
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "darkModeSupport": true,
+      "extendInfo": {
+        "LSMinimumSystemVersion": "12.0",
+        "NSHumanReadableCopyright": "Copyright \u00a9 2026 Byrva"
+      }
+    },
+    "dmg": {
+      "title": "Pulse ${version}"
+    },
+    "afterPack": "scripts/after-pack.js",
+    "electronLanguages": [
+      "en"
+    ],
+    "artifactName": "Pulse-${version}-${arch}.${ext}"
+  },
+  "homepage": "https://github.com/pulsebridge/pulse"
+}

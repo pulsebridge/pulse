@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Python (the optional voice)
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+app/dist/
+app/build/Pulse.iconset/
+
+# Local tooling and logs
+.claude/
+*.log

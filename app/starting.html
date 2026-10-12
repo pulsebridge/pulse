@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>Pulse</title>
+<style>
+    :root { color-scheme: dark; }
+    html, body { height: 100%; margin: 0; }
+    body {
+        background: #060607; color: rgba(255, 255, 255, 0.72);
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+        display: grid; place-items: center; -webkit-app-region: drag; user-select: none; cursor: default;
+    }
+    .wrap { display: grid; justify-items: center; gap: 18px; text-align: center; padding: 0 32px; }
+    svg { width: 64px; height: 64px; animation: beat 1.6s ease-in-out infinite; }
+    @keyframes beat { 0%, 100% { opacity: 0.55; transform: scale(0.97); } 45% { opacity: 1; transform: scale(1); } }
+    .title { font-size: 15px; letter-spacing: 0.01em; color: rgba(255, 255, 255, 0.9); }
+    .msg { font-size: 12px; color: rgba(255, 255, 255, 0.45); max-width: 440px; min-height: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="0.0" y="0.0" width="64.0" height="64.0" rx="15" fill="#FFD21F"/><path d="M32.00 13.00L32.00 51.00M15.55 22.50L48.45 41.50M48.45 22.50L15.55 41.50" fill="none" stroke="#000000" stroke-width="7.5" stroke-linecap="round"/></svg>
+    <div class="title">Starting Pulse…</div>
+    <div class="msg" id="msg"></div>
+</div>
+<script>document.getElementById("msg").textContent = new URLSearchParams(location.search).get("msg") || "";</script>
+</body>
+</html>

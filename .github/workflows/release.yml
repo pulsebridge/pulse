@@ -1,0 +1,41 @@
+# Builds the Mac app (Apple Silicon and Intel DMGs) and attaches them to a GitHub Release.
+# Runs when a version tag is pushed:  git tag v0.1.0 && git push origin v0.1.0
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  mac-app:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install
+        working-directory: app
+        run: npm ci
+
+      - name: Self-test the server
+        run: node server/server.js --test
+
+      # The icon (build/icon.icns) is committed, so the build does not re-render it.
+      - name: Build DMGs
+        working-directory: app
+        run: npm run release
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --title "Pulse $GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" app/dist/*.dmg --clobber
